@@ -84,14 +84,12 @@ public class IntList {
      */
 
     public static IntList dcatenate(IntList A, IntList B) {
+        if(A == null) return B;
+
         IntList res = A;
-        while (A.rest!=null) A=A.rest;
-        while (B.rest!=null) {
-            A.rest=B;
-            A=A.rest;
-            B=B.rest;
-        }
-        return res;
+        while (res.rest!=null) res = res.rest;
+        res.rest = B;
+        return A;
     }
 
     /**
@@ -100,29 +98,11 @@ public class IntList {
      * 返回一个列表使得 A 的元素在 B 元素前面----------非破坏性
      */
     public static IntList catenate(IntList A, IntList B) {
-        IntList tmp = new IntList();
-        IntList res = tmp;
-        while (A.rest!=null) {
-            tmp.rest = new IntList(A.first,new IntList());
-            A = A.rest;
-            tmp = tmp.rest;
-            if(A.rest==null)
-            {
-                tmp.rest = new IntList(A.first,new IntList());
-                tmp = tmp.rest;
-            }
-        }
-        while (B.rest!=null) {
-            tmp.rest=new IntList(B.first,new IntList());
-            B = B.rest;
-            tmp = tmp.rest;
-            if(B.rest==null)
-            {
-                tmp.rest = new IntList(B.first,null);
-                tmp = tmp.rest;
-            }
-        }
-        return res.rest;
+        if(A==null) return B;
+
+        if(A.rest == null) return new IntList(A.first,B);
+
+        return new IntList(A.first,catenate(A.rest,B));
     }
 
 
