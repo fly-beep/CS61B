@@ -35,6 +35,7 @@ public class IntList {
 
     /**
      * Returns a list equal to L with all elements squared. Destructive.
+     * 所有元素乘方----L原来的值发生了改变
      */
     public static void dSquareList(IntList L) {
 
@@ -46,6 +47,7 @@ public class IntList {
 
     /**
      * Returns a list equal to L with all elements squared. Non-destructive.
+     * 所有元素乘方，非破坏性的----L原来的值没有改变
      */
     public static IntList squareListIterative(IntList L) {
         if (L == null) {
@@ -78,20 +80,49 @@ public class IntList {
     /**
      * Returns a list consisting of the elements of A followed by the
      * *  elements of B.  May modify items of A. Don't use 'new'.
+     * 返回一个列表使得 A 的元素在 B 元素前面----------破坏性
      */
 
     public static IntList dcatenate(IntList A, IntList B) {
-        //TODO:  fill in method
-        return null;
+        IntList res = A;
+        while (A.rest!=null) A=A.rest;
+        while (B.rest!=null) {
+            A.rest=B;
+            A=A.rest;
+            B=B.rest;
+        }
+        return res;
     }
 
     /**
      * Returns a list consisting of the elements of A followed by the
      * * elements of B.  May NOT modify items of A.  Use 'new'.
+     * 返回一个列表使得 A 的元素在 B 元素前面----------非破坏性
      */
     public static IntList catenate(IntList A, IntList B) {
-        //TODO:  fill in method
-        return null;
+        IntList tmp = new IntList();
+        IntList res = tmp;
+        while (A.rest!=null) {
+            tmp.rest = new IntList(A.first,new IntList());
+            A = A.rest;
+            tmp = tmp.rest;
+            if(A.rest==null)
+            {
+                tmp.rest = new IntList(A.first,new IntList());
+                tmp = tmp.rest;
+            }
+        }
+        while (B.rest!=null) {
+            tmp.rest=new IntList(B.first,new IntList());
+            B = B.rest;
+            tmp = tmp.rest;
+            if(B.rest==null)
+            {
+                tmp.rest = new IntList(B.first,null);
+                tmp = tmp.rest;
+            }
+        }
+        return res.rest;
     }
 
 
